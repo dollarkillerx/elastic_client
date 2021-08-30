@@ -1,11 +1,12 @@
-# simple_elasticsearch_client
-simple elasticsearch client
+package simple_elasticsearch_client
 
-超级简单的ES Client
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"testing"
+)
 
-`go get github.com/dollarkillerx/simple_elasticsearch_client`
-
-``` 
 func TestClient(t *testing.T) {
 	client := New("127.0.0.1:9200")
 	index := client.Index("smoothie")
@@ -26,11 +27,3 @@ func TestClient(t *testing.T) {
 		fmt.Println(string(marshal))
 	}
 }
-```
-
-
-password
-``` 
-client := esClient.New("127.0.0.1:9200", esClient.SetSchema(esClient.HTTPS), esClient.AlloverTLS(),
-		esClient.SetPassword("elastic", "elastic"))
-```
