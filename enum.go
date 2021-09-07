@@ -1,6 +1,10 @@
 package simple_elasticsearch_client
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+)
 
 type Schema string
 
@@ -90,4 +94,28 @@ type Shards struct {
 	Successful int64 `json:"successful"`
 	Skipped    int64 `json:"skipped"`
 	Failed     int64 `json:"failed"`
+}
+
+type EsError struct {
+	Error struct {
+		RootCause []struct {
+			Type         string `json:"type"`
+			Reason       string `json:"reason"`
+			ResourceType string `json:"resource.type"`
+			ResourceId   string `json:"resource.id"`
+			IndexUuid    string `json:"index_uuid"`
+			Index        string `json:"index"`
+		} `json:"root_cause"`
+		Type         string `json:"type"`
+		Reason       string `json:"reason"`
+		ResourceType string `json:"resource.type"`
+		ResourceId   string `json:"resource.id"`
+		IndexUuid    string `json:"index_uuid"`
+		Index        string `json:"index"`
+	} `json:"error"`
+	Status int `json:"status"`
+}
+
+func (ee *EsError) ToError() error {
+	return errors.New(fmt.Sprintf("%s_status:%d", ee.Error.Reason, ee.Status))
 }

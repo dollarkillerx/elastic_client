@@ -65,7 +65,7 @@ func main() {
 
 	index := client.Index("prod_news_v2")
 
-	resp, err := index.OrgExec(sql)
+	resp, err := index.OrgSearch(sql)
 	if err != nil {
 		log.Fatalln(err)
 	}
