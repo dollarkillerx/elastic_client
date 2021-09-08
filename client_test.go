@@ -83,3 +83,180 @@ func TestClientDelIndex(t *testing.T) {
 		log.Fatalln(err)
 	}
 }
+
+func TestClientInsert(t *testing.T) {
+	client := New("192.168.88.11:9203")
+	index := client.Index("theme_v3")
+	err := index.Insert(`{
+	        "kw.id":"dededede2",
+	        "kw.entity_type":0,
+	        "created_at":0,
+	        "updated_at":null,
+	        "kw.redirect_theme_id":"2test",
+	        "ik.title":"dawdaw",
+	        "ik.summary":"ddad",
+	        "kw.publish_time":"2021-09-07T14:43:48.942193511+08:00",
+	        "kw.picture_url":"de",
+	        "kw.topics":[
+	            "d"
+	        ],
+	        "kw.tags":[
+	            "bdb"
+	        ],
+	        "kw.concepts":[
+	            "cdec"
+	        ],
+	        "related_entity":[
+	            {
+	                "kw.entity_id":"da",
+	                "kw.entity_name":"ad",
+	                "kw.entity_type":2
+	            }
+	        ],
+	        "related_news":[
+	            {
+	                "kw.id":"dad",
+	                "ik.title":"daw",
+	                "ik.summary":"dad",
+	                "kw.source":"1",
+	                "ni.link":"1",
+	                "kw.published_at":"2021-09-07T14:43:48.942193648+08:00",
+	                "is_main":true
+	            }
+	        ]
+	    }`)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func TestClientInsertBatch(t *testing.T) {
+	client := New("192.168.88.11:9203")
+	index := client.Index("theme_v3")
+	err := index.InsertBatch(`{
+	        "kw.id":"dededede3",
+	        "kw.entity_type":0,
+	        "created_at":0,
+	        "updated_at":null,
+	        "kw.redirect_theme_id":"2test",
+	        "ik.title":"dawdaw",
+	        "ik.summary":"ddad",
+	        "kw.publish_time":"2021-09-07T14:43:48.942193511+08:00",
+	        "kw.picture_url":"de",
+	        "kw.topics":[
+	            "d"
+	        ],
+	        "kw.tags":[
+	            "bdb"
+	        ],
+	        "kw.concepts":[
+	            "cdec"
+	        ],
+	        "related_entity":[
+	            {
+	                "kw.entity_id":"da",
+	                "kw.entity_name":"ad",
+	                "kw.entity_type":2
+	            }
+	        ],
+	        "related_news":[
+	            {
+	                "kw.id":"dad",
+	                "ik.title":"daw",
+	                "ik.summary":"dad",
+	                "kw.source":"1",
+	                "ni.link":"1",
+	                "kw.published_at":"2021-09-07T14:43:48.942193648+08:00",
+	                "is_main":true
+	            }
+	        ]
+	    }{
+	        "kw.id":"dededede4",
+	        "kw.entity_type":0,
+	        "created_at":0,
+	        "updated_at":null,
+	        "kw.redirect_theme_id":"2test",
+	        "ik.title":"dawdaw",
+	        "ik.summary":"ddad",
+	        "kw.publish_time":"2021-09-07T14:43:48.942193511+08:00",
+	        "kw.picture_url":"de",
+	        "kw.topics":[
+	            "d"
+	        ],
+	        "kw.tags":[
+	            "bdb"
+	        ],
+	        "kw.concepts":[
+	            "cdec"
+	        ],
+	        "related_entity":[
+	            {
+	                "kw.entity_id":"da",
+	                "kw.entity_name":"ad",
+	                "kw.entity_type":2
+	            }
+	        ],
+	        "related_news":[
+	            {
+	                "kw.id":"dad",
+	                "ik.title":"daw",
+	                "ik.summary":"dad",
+	                "kw.source":"1",
+	                "ni.link":"1",
+	                "kw.published_at":"2021-09-07T14:43:48.942193648+08:00",
+	                "is_main":true
+	            }
+	        ]
+	    }{
+	        "kw.id":"dededede5",
+	        "kw.entity_type":0,
+	        "created_at":0,
+	        "updated_at":null,
+	        "kw.redirect_theme_id":"2test",
+	        "ik.title":"dawdaw",
+	        "ik.summary":"ddad",
+	        "kw.publish_time":"2021-09-07T14:43:48.942193511+08:00",
+	        "kw.picture_url":"de",
+	        "kw.topics":[
+	            "d"
+	        ],
+	        "kw.tags":[
+	            "bdb"
+	        ],
+	        "kw.concepts":[
+	            "cdec"
+	        ],
+	        "related_entity":[
+	            {
+	                "kw.entity_id":"da",
+	                "kw.entity_name":"ad",
+	                "kw.entity_type":2
+	            }
+	        ],
+	        "related_news":[
+	            {
+	                "kw.id":"dad",
+	                "ik.title":"daw",
+	                "ik.summary":"dad",
+	                "kw.source":"1",
+	                "ni.link":"1",
+	                "kw.published_at":"2021-09-07T14:43:48.942193648+08:00",
+	                "is_main":true
+	            }
+	        ]
+	    }`)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func TestClientDeleteDocument(t *testing.T) {
+	client := New("192.168.88.11:9203")
+	index := client.Index("theme_v3")
+	err := index.DeleteByQuery(`
+			{"query" : {"bool" : {"must" : [{"match_phrase" : {"kw.id" : {"query" : "dededede"}}}]}}}
+		`)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}

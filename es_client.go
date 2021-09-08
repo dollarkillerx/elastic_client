@@ -187,23 +187,69 @@ type insertResp struct {
 	} `json:"_shards"`
 	SeqNo       int `json:"_seq_no"`
 	PrimaryTerm int `json:"_primary_term"`
+	EsError
 }
 
+// Insert 插入数据
 func (ei *EsIndex) Insert(data string) error {
-	request := ei.client.packagingRequest(urllib.Delete(fmt.Sprintf("%s/%s/_doc", ei.client.getUrl(), ei.index))).SetJson([]byte(data))
+	request := ei.client.packagingRequest(urllib.Post(fmt.Sprintf("%s/%s/_doc", ei.client.getUrl(), ei.index))).SetJson([]byte(data))
 
 	_, bytes, err := request.ByteOriginal()
 	if err != nil {
 		return err
 	}
 
-	var result createIndex
+	var result insertResp
 	err = json.Unmarshal(bytes, &result)
 	if err != nil {
 		return err
 	}
 
-	if result.Acknowledged == false {
+	if result.Error.ResourceType != "" {
+		return result.ToError()
+	}
+
+	return nil
+}
+
+// InsertBatch  批量插入数据
+func (ei *EsIndex) InsertBatch(data string) error {
+	request := ei.client.packagingRequest(urllib.Post(fmt.Sprintf("%s/%s/_doc/_bulk", ei.client.getUrl(), ei.index))).SetJson([]byte(data))
+
+	_, bytes, err := request.ByteOriginal()
+	if err != nil {
+		return err
+	}
+
+	var result insertResp
+	err = json.Unmarshal(bytes, &result)
+	if err != nil {
+		return err
+	}
+
+	if result.Error.ResourceType != "" {
+		return result.ToError()
+	}
+
+	return nil
+}
+
+// DeleteByQuery 通过查询删除数据
+func (ei *EsIndex) DeleteByQuery(data string) error {
+	request := ei.client.packagingRequest(urllib.Post(fmt.Sprintf("%s/%s/_delete_by_query", ei.client.getUrl(), ei.index))).SetJson([]byte(data))
+
+	_, bytes, err := request.ByteOriginal()
+	if err != nil {
+		return err
+	}
+
+	var result insertResp
+	err = json.Unmarshal(bytes, &result)
+	if err != nil {
+		return err
+	}
+
+	if result.Error.ResourceType != "" {
 		return result.ToError()
 	}
 
