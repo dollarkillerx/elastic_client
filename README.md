@@ -1,9 +1,9 @@
-# simple_elasticsearch_client
+# elastic_client
 simple elasticsearch client
 
 超级简单的ES Client
 
-`go get github.com/dollarkillerx/simple_elasticsearch_client`
+`go get github.com/dollarkillerx/elastic_client`
 
 ``` 
 func TestClient(t *testing.T) {

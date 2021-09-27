@@ -1,4 +1,4 @@
-package simple_elasticsearch_client
+package elastic_client
 
 type Options struct {
 	schema     Schema

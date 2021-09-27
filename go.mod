@@ -1,4 +1,4 @@
-module github.com/dollarkillerx/simple_elasticsearch_client
+module github.com/dollarkillerx/elastic_client
 
 go 1.15
 
