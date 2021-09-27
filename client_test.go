@@ -30,7 +30,7 @@ func TestClient(t *testing.T) {
 
 func TestClientCount(t *testing.T) {
 	client := New("192.168.88.11:9203")
-	count, err := client.Count("theme_v3")
+	count, err := client.Count("theme_v3", nil)
 	if err != nil {
 		log.Fatalln(err)
 	}

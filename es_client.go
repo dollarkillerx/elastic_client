@@ -81,8 +81,12 @@ type countResponse struct {
 }
 
 // Count 统计INDEX中文档数量
-func (e *EsClient) Count(index string) (int64, error) {
-	code, original, err := e.packagingRequest(urllib.Get(fmt.Sprintf("%s/%s/_count", e.getUrl(), index))).ByteOriginal()
+func (e *EsClient) Count(index string, sql *string) (int64, error) {
+	sr := e.packagingRequest(urllib.Get(fmt.Sprintf("%s/%s/_count", e.getUrl(), index)))
+	if sql != nil {
+		sr = sr.SetJson([]byte(*sql))
+	}
+	code, original, err := sr.ByteOriginal()
 	if err != nil {
 		return 0, err
 	}
